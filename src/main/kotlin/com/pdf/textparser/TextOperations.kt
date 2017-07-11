@@ -1,6 +1,5 @@
 package com.pdf.textparser
 
-import com.pdf.domain.Word
 import org.springframework.stereotype.Service
 
 

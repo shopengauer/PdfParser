@@ -16,18 +16,18 @@ interface TextOperations {
 @Service
 class SimpleTextOperations : TextOperations {
 
-    override fun getListOfTokens(text: String, regexp: Regex): List<MatchResult> = regexp.findAll(text).toList()
+    override fun getListOfTokens(text: String, regexp: Regex): List<MatchResult>
+            = regexp.findAll(text.replace("-\n","").replace("\n","")).toList()
 
 
     override fun filterListOfTokens(tokens: List<MatchResult>): List<String> = tokens
             .map { it.value }
             .map {
                 when {
-                    it.length == 1 -> ""
                     it[0].isUpperCase() && it[1].isUpperCase() -> it
                     else -> it.toLowerCase()
                 }
-            }.filter { it != "" }
+            }.filter { it.length > 1 }
 
 
 

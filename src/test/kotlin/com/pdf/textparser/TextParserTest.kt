@@ -30,14 +30,40 @@ class TextParserTest {
             "libraries that support specific domains or programming paradigms. Let’s look next at\n" +
             "the key qualities of Kotlin as a programming language."
 
+    val ds = """ Thanks to Kotlin’s support for type inference, most of the extra verbosity associated
+with static typing disappears, because you don’t need to declare types explicitly.
+If you look at the specifics of Kotlin’s type system, you’ll find many familiar con-
+cepts. Classes, interfaces, and generics work in a way very similar to Java, so most of
+your Java knowledge should easily transfer to Kotlin. Some things are new, though.
+The most important of those is Kotlin’s support for nullable types, which lets you
+write more reliable programs by detecting possible null pointer exceptions at com-
+pile time. We’ll come back to nullable types later in this chapter and discuss them in
+detail in chapter 6.
+Another new thing in Kotlin’s type system is its support for function types. To see
+what this is about, let’s look at the main ideas of functional programming and see how
+it’s supported in Kotlin."""
+
+
     @Test
     fun parseTextTest() {
-      val matchResults : List<MatchResult> = textOperations.getListOfTokens(testText)
-      println(matchResults.map { it.value })
+        val matchResults: List<MatchResult> = textOperations.getListOfTokens(testText)
 
-      val scanner = Scanner(testText)
-       while(scanner.hasNext())
-          println(scanner.nextLine())
+         println(textOperations.filterListOfTokens(matchResults).toSet())
+
+       // println(matchResults.map { it.value })
+
+
+//
+//        val scanner = Scanner(testText)
+//        while (scanner.hasNext())
+//            println(scanner.nextLine())
+
+
+//        println(ds.replace("-\n","").replace("\n",""))
+//        println(ds)
+//        val scanner2 = Scanner(ds)
+//        while (scanner2.hasNextLine())
+//            println(scanner2.nextLine().contains("\n"))
 
 
     }

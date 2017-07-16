@@ -1,5 +1,6 @@
 package com.pdf.textparser
 
+import com.pdf.domain.Word
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.junit.Assert
 import org.junit.Test
@@ -58,6 +59,13 @@ class DemoApplicationTests {
             val sortedCountWords = wordCountMap.values.sortedDescending()
 
             println(wordCountMap.entries.sortedWith(Comparator.comparingInt({-it.value})))
+//            println(wordCountMap.entries.sortedWith(Comparator.comparingInt({-it.value})))
+
+
+            val sortedMap = hashMapOf<String,Int>()
+            wordCountMap.entries.map { it.toPair() }.forEach { sortedMap.plus(it) }
+
+            println(sortedMap)
 
 
             val setOfWords = processWords.toSet()
@@ -88,5 +96,16 @@ class DemoApplicationTests {
         return pdfDocument
     }
 
+    @Test
+    fun mapSort() {
+      val map =  mapOf("A" to 6, "B" to 1,"C" to 3)
 
+
+      println(map.entries.sortedWith(Comparator.comparingInt { -it.value })
+              .associate { Pair(it.key,it.value) })
+
+    }
 }
+
+
+

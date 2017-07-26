@@ -4,10 +4,12 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.stereotype.Repository
 import java.io.File
 
 @SpringBootApplication
+@ComponentScan
 class DemoApplication
 
 fun main(args: Array<String>) {

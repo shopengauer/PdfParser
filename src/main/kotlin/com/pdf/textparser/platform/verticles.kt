@@ -27,7 +27,7 @@ class ServerVerticle : AbstractVerticle(){
             response.end("This is my startUp PdfWords!")
         })
 
-        server.listen(8080)
+        server.listen(8081)
     }
 }
 
@@ -47,7 +47,7 @@ class VerticleConfiguration{
     @Bean
     open fun init() = CommandLineRunner {
         val vertx: Vertx = Vertx.vertx()
-        //vertx.deployVerticle(serverVerticle())
+        vertx.deployVerticle(serverVerticle())
         vertx.deployVerticle(staticVerticle())
     }
 

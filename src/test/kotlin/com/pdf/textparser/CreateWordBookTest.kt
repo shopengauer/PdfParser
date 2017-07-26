@@ -69,6 +69,7 @@ class CreateWordBookTest {
         println(bookWordStatistic.getListOfBookWords)
         println(bookWordStatistic.getSetOfBookWords)
         println(bookWordStatistic.mapOfBookWordOccurs)
+        println(bookWordStatistic.mapOfBookTokenOccurs)
         println(bookWordStatistic.sortDescendingTokensMap(bookWordStatistic.mapOfBookTokenOccurs))
         println(bookWordStatistic.sortAccendingTokensMap(bookWordStatistic.mapOfBookTokenOccurs))
         println(bookWordStatistic.getWordsStatistics(bookWordStatistic.mapOfBookTokenOccurs))

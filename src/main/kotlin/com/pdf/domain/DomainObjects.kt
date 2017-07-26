@@ -3,6 +3,7 @@ package com.pdf.domain
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+val createWord = { tokens: String, book : Book -> Word(tokens, setOf(), setOf(book))}
 
 data class Book(val title: String, val authors: Set<String> = setOf(), var isbn: String = "")
 
@@ -20,54 +21,46 @@ class BookWordStatistics(val listOfBookStringTokens: List<String>, val book: Boo
     }
 
     val getSetOfBookWords: Set<Word> get() {
-        return listOfBookStringTokens.map { Word(it, setOf(), setOf(book)) }.toHashSet()
+        return listOfBookStringTokens.map { createWord(it,book) }.toHashSet()
     }
 
     val getListOfBookWords: List<Word> get() {
         return listOfBookStringTokens.map { Word(it, setOf(), setOf(book)) }
     }
 
-    val mapOfBookWordOccurs: Map<Word, Int> get() {
-        val mapOfBookWordOccurs = hashMapOf<Word, Int>()
-        getListOfBookWords.forEach {
-            if (mapOfBookWordOccurs.containsKey(it))
-                mapOfBookWordOccurs.put(it, mapOfBookWordOccurs[it]!! + 1)
-            else
-                mapOfBookWordOccurs.put(it, 1)
-        }
-        return mapOfBookWordOccurs
+    val mapOfBookWordOccurs get() = getListOfBookWords
+            .associate { Pair(it, getListOfBookWords.count {word -> word.word == it.word }) }
+
+
+    val mapOfBookTokenOccurs get() = listOfBookStringTokens
+            .associate { Pair(it, getListOfBookWords.count {word -> word.word == it }) }
+
+
+
+    fun getWordsStatistics(tokensMap: Map<String, Int>): Map<Int, Int> {
+
+         return tokensMap.values.groupBy { it }.mapValues { it.value.size }
     }
 
-    val mapOfBookTokenOccurs: Map<String, Int> get() {
-        val mapOfBookTokenOccurs = hashMapOf<String, Int>()
-        listOfBookStringTokens.forEach {
-            if (mapOfBookTokenOccurs.containsKey(it))
-                mapOfBookTokenOccurs.put(it, mapOfBookTokenOccurs[it]!! + 1)
-            else
-                mapOfBookTokenOccurs.put(it, 1)
-        }
-        return mapOfBookTokenOccurs
-    }
+    fun getWordsStatisticsLambda(tokensMap: Map<String, Int>): Map<Int, Int> {
 
-    fun getWordsStatistics(tokensMap: Map<String,Int>) : Map<Int,Int>{
-        val tokenOccursSet = tokensMap.values.toSet()
-        val tokenOccursMap = hashMapOf<Int,Int>()
+        val tokenOccursMap = hashMapOf<Int, Int>()
 
         tokensMap.values.forEach {
-            if(!tokenOccursMap.containsKey(it))
-                tokenOccursMap.put(it,1)
+            if (!tokenOccursMap.containsKey(it))
+                tokenOccursMap.put(it, 1)
             else
                 tokenOccursMap.put(it, tokenOccursMap[it]!! + 1)
-             }
+        }
 
-        return tokenOccursMap
+        return tokensMap.values.groupBy { it }.mapValues { it.value.size }
     }
 
-    fun sortDescendingTokensMap(tokensMap:Map<String,Int>) : Map<String,Int>
-            = mapOfBookTokenOccurs.entries.sortedWith(Comparator.comparingInt { -it.value }).associate { Pair(it.key,it.value) }
+    fun sortDescendingTokensMap(tokensMap: Map<String, Int>): Map<String, Int>
+            = mapOfBookTokenOccurs.entries.sortedWith(Comparator.comparingInt { -it.value }).associate { Pair(it.key, it.value) }
 
-    fun sortAccendingTokensMap(tokensMap:Map<String,Int>) : Map<String,Int>
-            = mapOfBookTokenOccurs.entries.sortedWith(Comparator.comparingInt { it.value }).associate { Pair(it.key,it.value) }
+    fun sortAccendingTokensMap(tokensMap: Map<String, Int>): Map<String, Int>
+            = mapOfBookTokenOccurs.entries.sortedWith(Comparator.comparingInt { it.value }).associate { Pair(it.key, it.value) }
 
 
 }

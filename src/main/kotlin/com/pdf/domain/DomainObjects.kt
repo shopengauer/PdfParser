@@ -14,47 +14,28 @@ data class Word(val word: String, val translates: Set<String> = setOf(), val boo
 
 class BookWordStatistics(val listOfBookStringTokens: List<String>, val book: Book) {
 
-    val logger: Logger = LoggerFactory.getLogger("com.pdf.domain.BookWordStatistics")
-
-    val getSetOfBookStringTokens: Set<String> get() {
-        return listOfBookStringTokens.toSet()
+    companion object {
+        val logger: Logger = LoggerFactory.getLogger(BookWordStatistics::class.java)
     }
 
-    val getSetOfBookWords: Set<Word> get() {
-        return listOfBookStringTokens.map { createWord(it,book) }.toHashSet()
-    }
 
-    val getListOfBookWords: List<Word> get() {
-        return listOfBookStringTokens.map { Word(it, setOf(), setOf(book)) }
-    }
-
-    val mapOfBookWordOccurs get() = getListOfBookWords
-            .associate { Pair(it, getListOfBookWords.count {word -> word.word == it.word }) }
+    val getSetOfBookStringTokens: Set<String> get() = listOfBookStringTokens.toSet()
 
 
-    val mapOfBookTokenOccurs get() = listOfBookStringTokens
-            .associate { Pair(it, getListOfBookWords.count {word -> word.word == it }) }
+    val getSetOfBookWords: Set<Word> get() = listOfBookStringTokens.map { createWord(it,book) }.toHashSet()
+
+    /**
+     *
+     */
+    val getListOfBookWords: List<Word> get() = listOfBookStringTokens.map { Word(it, setOf(), setOf(book)) }
 
 
+    val mapOfBookWordOccurs get() = getListOfBookWords.associate { Pair(it, getListOfBookWords.count {word -> word.word == it.word }) }
 
-    fun getWordsStatistics(tokensMap: Map<String, Int>): Map<Int, Int> {
 
-         return tokensMap.values.groupBy { it }.mapValues { it.value.size }
-    }
+    val mapOfBookTokenOccurs get() = listOfBookStringTokens.associate { Pair(it, getListOfBookWords.count {word -> word.word == it }) }
 
-    fun getWordsStatisticsLambda(tokensMap: Map<String, Int>): Map<Int, Int> {
-
-        val tokenOccursMap = hashMapOf<Int, Int>()
-
-        tokensMap.values.forEach {
-            if (!tokenOccursMap.containsKey(it))
-                tokenOccursMap.put(it, 1)
-            else
-                tokenOccursMap.put(it, tokenOccursMap[it]!! + 1)
-        }
-
-        return tokensMap.values.groupBy { it }.mapValues { it.value.size }
-    }
+    fun getWordsStatistics(tokensMap: Map<String, Int>): Map<Int, Int> = tokensMap.values.groupBy { it }.mapValues { it.value.size }
 
     fun sortDescendingTokensMap(tokensMap: Map<String, Int>): Map<String, Int>
             = mapOfBookTokenOccurs.entries.sortedWith(Comparator.comparingInt { -it.value }).associate { Pair(it.key, it.value) }

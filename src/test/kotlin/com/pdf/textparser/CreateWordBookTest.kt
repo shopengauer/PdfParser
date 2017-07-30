@@ -6,15 +6,19 @@ import com.pdf.domain.Word
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
+import kotlin.jvm.javaClass
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
 class CreateWordBookTest {
 
-
+companion object {
+    val log = LoggerFactory.getLogger(CreateWordBookTest::class.java)
+}
 
 
 
@@ -46,6 +50,8 @@ class CreateWordBookTest {
 
     @Test
     fun createEnWordTest() {
+
+        log.info("Logger in Kotlin: {}", 10)
 
         val book = Book(bookTitle, setOf(bookAuthor1, bookAuthor2), bookIsbn)
         Assert.assertEquals(bookTitle, book.title)

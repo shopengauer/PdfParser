@@ -1,6 +1,8 @@
 package com.pdf.textparser
 
-import com.pdf.domain.Word
+import com.pdf.textparser.businesslogic.getHomePath
+import com.pdf.textparser.businesslogic.readPdfDocumentText
+import com.pdf.textparser.businesslogic.readPdfFile
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.junit.Assert
 import org.junit.Test
@@ -8,7 +10,6 @@ import org.junit.runner.RunWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 import java.util.Comparator
-import java.util.function.ToIntFunction
 
 @RunWith(SpringRunner::class)
 @SpringBootTest

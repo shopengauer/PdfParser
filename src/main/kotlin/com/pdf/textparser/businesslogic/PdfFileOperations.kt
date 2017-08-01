@@ -1,4 +1,4 @@
-package com.pdf.textparser
+package com.pdf.textparser.businesslogic
 
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper

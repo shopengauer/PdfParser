@@ -15,19 +15,20 @@ class ServerVerticle : AbstractVerticle(){
     override fun start(startFuture: Future<Void>?) {
         super.start(startFuture)
 
-        var server = vertx.createHttpServer()
+        var server = vertx.createHttpServer().apply {
 
-        server.requestHandler({ request ->
+            requestHandler({ request ->
 
-            // This handler gets called for each request that arrives on the server
-            var response = request.response()
-            response.putHeader("content-type", "text/plain")
+                // This handler gets called for each request that arrives on the server
+                var response = request.response()
+                response.putHeader("content-type", "text/plain")
 
-            // Write to the response and end it
-            response.end("This is my startUp PdfWords!")
-        })
+                // Write to the response and end it
+                response.end("This is my startUp PdfWords!")
+            })
 
-        server.listen(8081)
+            listen(8081)
+        }
     }
 }
 

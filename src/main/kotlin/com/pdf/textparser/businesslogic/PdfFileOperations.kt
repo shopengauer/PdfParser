@@ -8,5 +8,10 @@ fun getHomePath(fileName: String) = "${System.getProperty("user.home")}${File.se
 
 fun readPdfFile(fileName: String): PDDocument? = PDDocument.load(File(fileName))
 
-fun readPdfDocumentText(pdfDocument: PDDocument?): String = PDFTextStripper().getText(pdfDocument)
+fun readPdfDocumentText(pdfDocument: PDDocument?): String {
+    pdfDocument.use {
+        return PDFTextStripper().getText(pdfDocument)
+    }
+
+}
 

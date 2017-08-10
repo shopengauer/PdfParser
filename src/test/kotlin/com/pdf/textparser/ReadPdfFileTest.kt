@@ -33,7 +33,7 @@ class ReadPdfFileTest {
         println(bookStatistics.numberOfTokens)
         println(bookStatistics.numberOfWords)
         println(bookStatistics.wordsSet)
-        println(bookStatistics.sortDescendingTokensMap(bookStatistics.tokenOccurs))
+        println(bookStatistics.sortDescendingTokensMap())
         println(bookStatistics.getWordsStatistics(bookStatistics.tokenOccurs))
 
     }

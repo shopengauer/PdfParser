@@ -9,6 +9,7 @@ data class Word(val word: String, val translates: Set<String> = setOf()) {
     fun addTranslate(translate: String) = Word(this.word, translates.plusElement(translate))
 }
 
+
 class BookStatistic(val tokensList: List<String>, val book: Book = Book("default")) {
 
     companion object {
@@ -57,10 +58,10 @@ class BookStatistic(val tokensList: List<String>, val book: Book = Book("default
      */
     fun getWordsStatistics(tokensMap: Map<String, Int>): Map<Int, Int> = tokensMap.values.groupBy { it }.mapValues { it.value.size }
 
-    fun sortDescendingTokensMap(tokensMap: Map<String, Int>): Map<String, Int>
+    fun sortDescendingTokensMap(): Map<String, Int>
             = tokenOccurs.entries.sortedWith(Comparator.comparingInt { -it.value }).associate { Pair(it.key, it.value) }
 
-    fun sortAscendingTokensMap(tokensMap: Map<String, Int>): Map<String, Int>
+    fun sortAscendingTokensMap(): Map<String, Int>
             = tokenOccurs.entries.sortedWith(Comparator.comparingInt { it.value }).associate { Pair(it.key, it.value) }
 
 

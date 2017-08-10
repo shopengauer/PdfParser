@@ -9,6 +9,8 @@ interface TextOperations {
 
     fun filterListOfTokens(tokens: List<MatchResult>): List<String>
 
+    fun listOfTextTokens(text: String):List<String>
+
 }
 
 @Service
@@ -27,6 +29,7 @@ class SimpleTextOperations : TextOperations {
                 }
             }.filter { it.length > 1 }
 
-
-
+    override fun listOfTextTokens(text: String):List<String> {
+       return filterListOfTokens(getListOfTokens(text))
+    }
 }

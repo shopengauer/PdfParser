@@ -7,7 +7,9 @@ import io.vertx.core.http.HttpServer
 import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
+import io.vertx.ext.web.FileUpload
 import io.vertx.ext.web.Router
+import io.vertx.ext.web.handler.BodyHandler
 
 
 class ApiVerticle : AbstractVerticle() {
@@ -21,6 +23,7 @@ class ApiVerticle : AbstractVerticle() {
         val apiServer: HttpServer = vertx.createHttpServer()
         val router: Router = Router.router(vertx)
 
+        router.route().handler(BodyHandler.create().setUploadsDirectory("fileupload"))
         router.get().path("/word/:book_name/:request_type").handler({ context ->
             context.response().putHeader("content-type", "application/json;charset=utf-8")
 
@@ -39,6 +42,15 @@ class ApiVerticle : AbstractVerticle() {
                                 end(Json.encodePrettily(asyncResult.result().body()))
                     })
 
+        })
+
+        router.post().path("/fileupload").handler({ctx ->
+           ctx.response().putHeader("Content-Type","text/plain")
+            ctx.response().isChunked = true
+           for(f in ctx.fileUploads()){
+               ctx.response().write("File name: ${f.fileName()}")
+           }
+           ctx.response().end()
         })
 
         apiServer.requestHandler(router::accept).listen(8081, { asyncResult -> println(asyncResult.succeeded()) })

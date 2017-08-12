@@ -10,6 +10,6 @@ class StaticVerticle : AbstractVerticle() {
         super.start()
         val router = Router.router(vertx)
         router.route().handler(StaticHandler.create().setCachingEnabled(false).setWebRoot("webroot/web/"))
-        vertx.createHttpServer().requestHandler { httpServerRequest -> router.accept(httpServerRequest) }.listen(8080)
+        vertx.createHttpServer().requestHandler { httpServerRequest -> router.accept(httpServerRequest) }.listen(8081)
     }
 }

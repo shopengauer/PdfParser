@@ -10,11 +10,24 @@ data class Word(val word: String, val translates: Set<String> = setOf()) {
 }
 
 
-class BookStatistic(val tokensList: List<String>, val book: Book = Book("default")) {
+class BookStatistic(val text: String, val book: Book = Book("default")) {
+
+    val tokensList:List<String> = "[A-Za-z]+".toRegex().findAll(text.replace("-\n","").replace("\n"," ")).toList()
+            .map { it.value }
+            .map {
+                when {
+                    it.length > 1 && it[0].isUpperCase() && it[1].isUpperCase() -> it
+                    else -> it.toLowerCase()
+                }
+            }.filter { it.length > 1 }
+
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(BookStatistic::class.java)
     }
+
+
+
 
     /**
      * Set of words found in text
@@ -51,12 +64,12 @@ class BookStatistic(val tokensList: List<String>, val book: Book = Book("default
     /**
      * Word objects occurs in text
      */
-    val wordObjectOccurs:Map<Word,Int> get() = wordObjectList.groupBy { it }.mapValues { it.value.size }
+    val wordObjectOccurs: Map<Word, Int> get() = wordObjectList.groupBy { it }.mapValues { it.value.size }
 
     /**
      * How many words occurs in text how many time
      */
-    fun getWordsStatistics(tokensMap: Map<String, Int>): Map<Int, Int> = tokensMap.values.groupBy { it }.mapValues { it.value.size }
+    val wordsStatistics: Map<Int, Int> get() = tokenOccurs.values.groupBy { it }.mapValues { it.value.size }
 
     fun sortDescendingTokensMap(): Map<String, Int>
             = tokenOccurs.entries.sortedWith(Comparator.comparingInt { -it.value }).associate { Pair(it.key, it.value) }

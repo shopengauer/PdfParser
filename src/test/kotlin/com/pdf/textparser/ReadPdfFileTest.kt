@@ -29,12 +29,12 @@ class ReadPdfFileTest {
       val matchResults = simpleTextOperations.getListOfTokens(text)
       val listOfTokens = simpleTextOperations.filterListOfTokens(matchResults)
 
-      val bookStatistics = BookStatistic(listOfTokens)
+      val bookStatistics = BookStatistic(text)
         println(bookStatistics.numberOfTokens)
         println(bookStatistics.numberOfWords)
         println(bookStatistics.wordsSet)
         println(bookStatistics.sortDescendingTokensMap())
-        println(bookStatistics.getWordsStatistics(bookStatistics.tokenOccurs))
+        println(bookStatistics.wordsStatistics)
 
     }
 }

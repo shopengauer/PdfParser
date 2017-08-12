@@ -3,7 +3,7 @@ package com.pdf.textparser.platform
 import com.pdf.textparser.businesslogic.*
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future
-import io.vertx.core.json.Json
+import io.vertx.core.json.JsonObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 
@@ -12,7 +12,7 @@ class MockDataVerticle : AbstractVerticle() {
 
 
     companion object {
-        val text = readPdfDocumentText(readPdfFile(getHomePath("Kotlin_in_Action.pdf")))
+        val text:String = readPdfDocumentText(readPdfFile(getHomePath("Kotlin_in_Action.pdf")))
 
     }
 
@@ -20,12 +20,18 @@ class MockDataVerticle : AbstractVerticle() {
         super.start(startFuture)
         val eb = vertx.eventBus()
 
-        eb.consumer<List<Book>>("mockdata",
+        /**
+         * Параметризуем типом который возвращаем
+         */
+        eb.consumer<JsonObject>("mock_data",
                 { message ->
-                    val headers = message.headers()
-                    when(headers.get("action")){
-                        "all-tokens" -> message.reply(Json.encodePrettily(textOperations.listOfTextTokens(text)))
-                        "statistics" -> message.reply(Json.encodePrettily(BookStatistic(textOperations.listOfTextTokens(text)).sortDescendingTokensMap()))
+                    val messageBody = message.body()
+                    val bookName = messageBody.getString("book_name")
+                    val requestType = messageBody.getString("request_type")
+                    val bookStatistic:BookStatistic = BookStatistic(text,Book(bookName))
+                    when(requestType){
+                        "all-tokens" -> message.reply(JsonObject().put("list",bookStatistic.wordsStatistics))
+                        "statistics" -> message.reply(JsonObject().put("map",bookStatistic.sortDescendingTokensMap()))
                     }
 
                 })

@@ -12,7 +12,14 @@ data class Word(val word: String, val translates: Set<String> = setOf()) {
 
 class BookStatistic(val text: String, val book: Book = Book("default")) {
 
-    val tokensList:List<String> = "[A-Za-z]+".toRegex().findAll(text.replace("-\n","").replace("\n"," ")).toList()
+    companion object {
+        val logger: Logger = LoggerFactory.getLogger(BookStatistic::class.java)
+    }
+
+    /**
+     * Разбирает исходный текст на токены
+     */
+    val tokenList: List<String> = "[A-Za-z]+".toRegex().findAll(text.replace("-\n", "").replace("\n", " ")).toList()
             .map { it.value }
             .map {
                 when {
@@ -22,52 +29,45 @@ class BookStatistic(val text: String, val book: Book = Book("default")) {
             }.filter { it.length > 1 }
 
 
-    companion object {
-        val logger: Logger = LoggerFactory.getLogger(BookStatistic::class.java)
-    }
-
-
-
-
     /**
-     * Set of words found in text
+     * Возвращает множество слов присутствующих в тексте
      */
-    val wordsSet: Set<String> get() = tokensList.toSet()
+    val wordsSet: Set<String> get() = tokenList.toSet()
 
 
     /**
-     * Number of word occurs in text
+     *  Возвращает количество появления каждого слова в исходном тексте
      */
-    val tokenOccurs: Map<String, Int> get() = tokensList.groupBy { it }.mapValues { it.value.size }
+    val tokenOccurs: Map<String, Int> get() = tokenList.groupBy { it }.mapValues { it.value.size }
 
     /**
-     *  total number of tokens in text
+     *  Общее количество токенов в тексте
      */
-    val numberOfTokens: Int get() = tokensList.size
+    val numberOfTokens: Int get() = tokenList.size
 
     /**
-     *  total number of word in text
+     *  Общее количество слов в тексте
      */
     val numberOfWords: Int get() = wordsSet.size
 
 
     /**
-     * Set of Word object from text
+     *  Создает множество объектов типа Word найденных в тексте
      */
-    val wordObjectSet: Set<Word> get() = tokensList.map { Word(it, setOf()) }.toHashSet()
+    val wordObjectSet: Set<Word> get() = tokenList.map { Word(it, setOf()) }.toHashSet()
 
     /**
-     * List of Word object from the text
+     * Возвращает список токенов обернутых в объект Word
      */
-    val wordObjectList: List<Word> get() = tokensList.map { Word(it, setOf()) }
+    val wordObjectList: List<Word> get() = tokenList.map { Word(it, setOf()) }
 
     /**
-     * Word objects occurs in text
+     * Мапа отображает количество появления каждого слова в исходном тексте
      */
     val wordObjectOccurs: Map<Word, Int> get() = wordObjectList.groupBy { it }.mapValues { it.value.size }
 
     /**
-     * How many words occurs in text how many time
+     * Отображает сколько слов встречается в тексте столео то раз
      */
     val wordsStatistics: Map<Int, Int> get() = tokenOccurs.values.groupBy { it }.mapValues { it.value.size }
 

@@ -10,21 +10,24 @@ import org.springframework.context.annotation.Configuration
 class VerticleConfiguration {
 
 
-
     @Bean
-    open fun init() = CommandLineRunner {
+    fun init() = CommandLineRunner {
         val vertx: Vertx = Vertx.vertx()
         vertx.deployVerticle(apiVerticle())
-        vertx.deployVerticle(staticVerticle())
         vertx.deployVerticle(mockDataVerticle())
     }
+
+//    @Bean
+//    fun deployVerticle() = {
+//        val vertx: Vertx = Vertx.vertx()
+//        vertx.deployVerticle(apiVerticle())
+//        vertx.deployVerticle(mockDataVerticle())
+//
+//    }
 
 
     @Bean
     fun apiVerticle() = ApiVerticle()
-
-    @Bean
-    fun staticVerticle() = StaticVerticle()
 
     @Bean
     fun mockDataVerticle() = MockDataVerticle()

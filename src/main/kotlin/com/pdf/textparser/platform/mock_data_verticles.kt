@@ -12,7 +12,7 @@ class MockDataVerticle : AbstractVerticle() {
 
 
     companion object {
-        val text:String = readPdfDocumentText(readPdfFile(getHomePath("Kotlin_in_Action.pdf")))
+        val text: String = readPdfDocumentText(readPdfFile(getHomePath("Kotlin_in_Action.pdf")))
 
     }
 
@@ -26,16 +26,17 @@ class MockDataVerticle : AbstractVerticle() {
         eb.consumer<JsonObject>("mock_data",
                 { message ->
                     val messageBody = message.body()
-                    val bookName = messageBody.getString("book_name")
+                  //  val bookName = messageBody.getString("book_name")
                     val requestType = messageBody.getString("request_type")
-                    val bookStatistic:BookStatistic = BookStatistic(text,Book(bookName))
-                    when(requestType){
-                        "all-tokens" -> message.reply(JsonObject().put("list",bookStatistic.wordsStatistics))
-                        "statistics" -> message.reply(JsonObject().put("map",bookStatistic.sortDescendingTokensMap()))
+                    val bookStatistic: BookStatistic = BookStatistic(text, Book("qqq"))
+                    when (requestType) {
+                        "all-tokens" -> message.reply(JsonObject().put("list", bookStatistic.sortAscendingTokensMap()))
+                        "statistics" -> message.reply(JsonObject().put("map", bookStatistic.sortDescendingTokensMap()))
                     }
 
                 })
     }
 
-    @Qualifier("simpleTextOperations") @Autowired lateinit var textOperations: SimpleTextOperations
+    @Qualifier("simpleTextOperations")
+    @Autowired lateinit var textOperations: SimpleTextOperations
 }

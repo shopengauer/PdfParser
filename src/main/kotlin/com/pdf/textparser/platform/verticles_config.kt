@@ -17,15 +17,6 @@ class VerticleConfiguration {
         vertx.deployVerticle(mockDataVerticle())
     }
 
-//    @Bean
-//    fun deployVerticle() = {
-//        val vertx: Vertx = Vertx.vertx()
-//        vertx.deployVerticle(apiVerticle())
-//        vertx.deployVerticle(mockDataVerticle())
-//
-//    }
-
-
     @Bean
     fun apiVerticle() = ApiVerticle()
 

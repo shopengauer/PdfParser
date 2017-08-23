@@ -1,8 +1,11 @@
 package com.pdf.textparser.platform
 
 import com.pdf.textparser.businesslogic.*
+import com.pdf.textparser.consts.WebVar
+import com.pdf.textparser.consts.WebVar.*
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future
+import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -21,13 +24,13 @@ class MockDataVerticle : AbstractVerticle() {
         val eb = vertx.eventBus()
 
         /**
-         * Параметризуем типом который возвращаем
+         * Параметризуем типом который получаем
          */
-        eb.consumer<JsonObject>("mock_data",
+        eb.consumer<JsonObject>(MOCK_DATA_ADDRESS.param,
                 { message ->
                     val messageBody = message.body()
                   //  val bookName = messageBody.getString("book_name")
-                    val requestType = messageBody.getString("request_type")
+                    val requestType = messageBody.getString(REQUEST_TYPE.param)
                     val bookStatistic: BookStatistic = BookStatistic(text, Book("qqq"))
                     when (requestType) {
                         "all-tokens" -> message.reply(JsonObject().put("list", bookStatistic.sortAscendingTokensMap()))
@@ -35,6 +38,8 @@ class MockDataVerticle : AbstractVerticle() {
                     }
 
                 })
+
+
     }
 
     @Qualifier("simpleTextOperations")

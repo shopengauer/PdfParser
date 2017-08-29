@@ -1,1 +1,14 @@
-let path = require('path');
+const path = require('path');
+const webpack = require('webpack');
+
+
+const config = {
+    entry: path.resolve('src/index.js'),
+    output: {
+        path: path.resolve('dist'),
+        filename: "bundle.js"
+    }
+
+};
+
+module.exports = config;

@@ -2,7 +2,7 @@ package com.pdf.textparser.consts
 
 enum class WebVar(val param: String) {
 
-    STATIC_ROOT("/"),
+    STATIC_ROOT("/static"),
     FILE_UPLOAD_DIR("fileupload"),
     FILE_UPLOAD_PATH("/fileupload"),
     ROOT_API_PATH("/word"),

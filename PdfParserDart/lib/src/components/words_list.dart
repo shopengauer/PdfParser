@@ -1,9 +1,11 @@
-import 'package:PdfParserDart/src/domain/word.dart';
+import 'package:PdfParserDart/src/components/word.dart';
 import 'package:angular/angular.dart';
 
 @Component(
   selector: 'words-list',
-  templateUrl: 'word_list.html',
+  template: '''
+              <div *ngFor = "let word of wordsList"><p>{{word.token}}</p></div>
+            ''',
   directives: const [CORE_DIRECTIVES]
 
 )

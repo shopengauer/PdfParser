@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:PdfParserDart/src/components/words_list/words_list.dart';
-import 'package:PdfParserDart/src/domain/word.dart';
-import 'package:PdfParserDart/src/services/http_service.dart';
-import 'package:PdfParserDart/src/services/mock_http_service.dart';
+import 'package:PdfParserDart/src/components/words_list.dart';
+import 'package:PdfParserDart/src/components/word.dart';
+import 'package:PdfParserDart/src/components/http_service.dart';
+import 'package:PdfParserDart/src/components/mock_http_service.dart';
 import 'package:angular/angular.dart';
 
 @Component(

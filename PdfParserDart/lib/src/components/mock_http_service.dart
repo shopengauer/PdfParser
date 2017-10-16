@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:PdfParserDart/src/domain/mock_word_set.dart';
+import 'package:PdfParserDart/src/components/mock_word_set.dart';
 import 'package:angular/angular.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
@@ -22,6 +22,7 @@ class MockHttpService extends MockClient {
     }
 
     return new Response(JSON.encode(mockResponse), 200);
+   // return new Response(JSON.encode(mockWordSet), 200);
   }
 
   MockHttpService()
